@@ -1,0 +1,299 @@
+/* Reset/Clean base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+/* Layout principale */
+.page-container {
+    display: flex;
+}
+
+.sidebar {
+    width: auto;
+    background-color: #003366;
+    color: white;
+    padding: 0.5 rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transform: rotate(-90deg);
+    white-space: nowrap;
+    text-transform: uppercase;
+}
+
+.content-area {
+    flex: 1;
+    padding: 1rem;
+}
+
+.zones-container {
+    background-color: #f0f0f0;
+    border-radius: 0 12px 12px 0;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+}
+
+/* Card styles */
+.zone-card {
+    width: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background-color: white;
+    transform-origin: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+}
+
+.zone-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    z-index: 2;
+}
+
+/* Transizioni per tutti gli elementi interni */
+.zone-header,
+.zone-image-container,
+.zone-image img,
+.zone-title,
+.status-badge,
+.weather-data,
+.zone-footer,
+.zone-action {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Effetti hover specifici per elementi interni */
+.zone-card:hover .zone-image img {
+    transform: scale(1.05);
+}
+
+.zone-card:hover .status-badge {
+    transform: translateY(-1px);
+}
+
+.zone-card:hover .zone-action {
+    opacity: 0.8;
+}
+
+.zone-card:hover .zone-footer {
+    background-color: #f8f9fa;
+}
+
+/* Aggiungere un sottile effetto di luminosità al passaggio del mouse */
+.zone-card:hover .zone-header,
+.zone-card:hover .weather-data {
+    filter: brightness(1.02);
+}
+
+/* Rendere più evidenti le azioni nel footer */
+.zone-action {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.375rem;
+    opacity: 0.6;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.zone-action:hover {
+    opacity: 1;
+}
+
+.zone-action img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    opacity: 0.7;
+}
+
+.zone-action:hover img {
+    transform: scale(1.1);
+}
+
+/* Aggiungere un effetto di transizione più fluido per le icone */
+.zone-action img,
+.status-icon,
+.weather-icon {
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Header section */
+.zone-header {
+    background-color: #F9FAFC;
+    padding: 0.75rem;
+}
+
+.zone-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.zone-number {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.zone-settings {
+    opacity: 0.6;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.zone-settings:hover {
+    opacity: 1;
+}
+
+/* Image section with title */
+.zone-image-container {
+    position: relative;
+    background-color: #D9D9D9;
+    padding: 1rem;
+    padding-top: 2.5rem;  /* Spazio per il titolo */
+}
+
+.zone-image {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.zone-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+}
+
+.zone-title {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Zone colors */
+.zone-card[data-zone="1"] .zone-title {
+    color: #dc3545;
+}
+
+.zone-card[data-zone="2"] .zone-title {
+    color: #28a745;
+}
+
+.zone-card[data-zone="3"] .zone-title {
+    color: #007bff;
+}
+
+/* Status bar */
+.zone-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    color: white;
+    background-color: #28a745;
+}
+
+.status-badge::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: white;
+}
+
+.status-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* Rende l'icona bianca */
+}
+
+.alarm-icons {
+    display: flex;
+    gap: 0.375rem;
+}
+
+.alarm-icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* Weather data */
+.weather-data {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #DFEAFF;
+    padding: 0.75rem;
+    color: rgb(41, 41, 41);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.weather-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.weather-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.7;
+}
+
+.weather-value {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+/* Footer */
+.zone-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: #F9FAFC;
+    border-top: 1px solid #eee;
+}

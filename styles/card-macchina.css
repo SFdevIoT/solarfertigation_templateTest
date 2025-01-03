@@ -1,0 +1,243 @@
+/* Reset/Clean base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.card-container {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 280px;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.machine-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.status-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.machine-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.active { background-color: #28a745; }
+.inactive { background-color: #dc3545; }
+
+.alarm-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.machine-icon {
+    width: 28px;
+    height: 28px;
+    opacity: 0.8;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+/* Fertilizers Section */
+.fertilizers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.fertilizers-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    padding: 0 0.25rem;
+}
+
+.fertilizers-title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.fertilizers-config {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    margin-right: -0.25rem;
+}
+
+.fertilizers-config:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+.fertilizers-config:active {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(0.92);
+}
+
+.fertilizers-config img {
+    width: 16px;
+    height: 16px;
+    opacity: 0.5;
+    transition: all 0.2s ease;
+}
+
+.fertilizers-config:hover img {
+    opacity: 0.85;
+}
+
+.fert-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: 40px;
+    padding: 0 0.25rem;
+}
+
+.bar-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 100%;
+}
+
+.vertical-bar {
+    width: 6px;
+    height: 32px;
+    background-color: #e9ecef;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+}
+
+.vertical-fill {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transition: height 0.3s ease;
+}
+
+.values-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.fert-percentage {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.fert-capacity {
+    font-size: 0.625rem;
+    color: #666;
+    line-height: 1;
+}
+
+.fert-label {
+    font-weight: 500;
+    font-size: 0.875rem;
+    color: #333;
+    min-width: 24px;
+    margin-left: auto;
+}
+
+/* Colors */
+.fert-green { color: #28a745; }
+.fert-green .vertical-fill { background-color: #28a745; }
+
+.fert-blue { color: #007bff; }
+.fert-blue .vertical-fill { background-color: #007bff; }
+
+.fert-yellow { color: #ffc107; }
+.fert-yellow .vertical-fill { background-color: #ffc107; }
+
+.fert-orange { color: #fd7e14; }
+.fert-orange .vertical-fill { background-color: #fd7e14; }
+
+.fert-red { color: #dc3545; }
+.fert-red .vertical-fill { background-color: #dc3545; }
+
+.card-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ddd;
+    padding: 0.75rem;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btn img {
+    width: 22px;
+    height: 22px;
+}
