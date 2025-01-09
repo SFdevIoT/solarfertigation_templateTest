@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Attività Agricole</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #4caf50;
+            --background-color: #f5f5f5;
+            --surface-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .date-selector {
+            background-color: var(--surface-color);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .date-selector input[type="date"] {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 1rem;
+            height: 100vh;
+            padding: 1rem;
+        }
+
+        .categories-panel {
+            background-color: var(--surface-color);
+            width: 300px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 1rem;
+        }
+
+        .category-list {
+            list-style: none;
+        }
+
+        .category-item {
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .category-item:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+        }
+
+        .category-item.active {
+            background-color: rgba(46, 125, 50, 0.2);
+            font-weight: 500;
+        }
+
+        .detail-panel {
+            background-color: var(--surface-color);
+            flex: 1;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .material-icons {
+            font-size: 20px;
+        }
+
+        .phase-selection {
+            padding: 1rem;
+        }
+
+        .phase-type-selector {
+            margin-bottom: 2rem;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .activity-options, .phase-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .activity-option, .phase-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .activity-option:hover, .phase-option:hover {
+            background-color: rgba(46, 125, 50, 0.1);
+        }
+
+        .culture-type-selector {
+            margin: 1.5rem 0;
+        }
+
+        .culture-select {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .phase-lists {
+            margin-top: 1.5rem;
+        }
+
+        .phase-list h3 {
+            margin-bottom: 1rem;
+        }
+
+        .phase-content {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .test-section {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .test-section h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .culture-selector {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .active-culture-info {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(46, 125, 50, 0.1);
+            border-radius: 4px;
+        }
+
+        .init-culture-button {
+            background-color: #2e7d32;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .init-culture-button:hover {
+            background-color: #1b5e20;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .init-culture-button .material-icons {
+            font-size: 24px;
+        }
+
+        .active-culture-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .culture-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .culture-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .culture-info {
+            flex: 1;
+        }
+
+        .culture-name {
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .culture-type {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .culture-details {
+            font-size: 0.85rem;
+            color: #666;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #444;
+        }
+
+        /* Layout a tre colonne */
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 1rem;
+            height: 100vh;
+            padding: 1rem;
+        }
+
+        /* Stili per il pannello di configurazione */
+        .config-panel {
+            background: #f8f9fa;
+            border-left: 1px solid var(--border-color);
+            padding: 1rem;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.05);
+        }
+
+        .config-panel-header {
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .config-panel-content {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            min-height: 400px;
+        }
+
+        /* Stili per le fasi fenologiche attive */
+        .phase-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .phase-item {
+            position: relative;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .phase-item.completed {
+            background: #f5f5f5;
+            color: #999;
+            border-left: 4px solid #999;
+        }
+
+        .phase-item.completed::before {
+            background: #999;
+        }
+
+        .phase-item.completed::after {
+            background: #e0e0e0;
+        }
+
+        .phase-item.active {
+            border-left: 4px solid #2e7d32;
+            background: #f1f8f1;
+        }
+
+        .phase-item.pending {
+            opacity: 0.7;
+            background: #fafafa;
+            border-left: 4px solid #bdbdbd;
+        }
+
+        .phase-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 50%;
+            width: 12px;
+            height: 12px;
+            background: #ccc;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .phase-item.active::before {
+            background: #2e7d32;
+        }
+
+        .phase-item::after {
+            content: '';
+            position: absolute;
+            left: -1.6rem;
+            top: 50%;
+            width: 2px;
+            height: calc(100% + 1rem);
+            background: #ccc;
+            z-index: -1;
+        }
+
+        .phase-item:last-child::after {
+            display: none;
+        }
+
+        .phase-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .phase-status {
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: #f5f5f5;
+        }
+
+        .phase-item.completed .phase-status {
+            background: #e0e0e0;
+            color: #757575;
+        }
+
+        .phase-item.active .phase-status {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .phase-item.pending .phase-status {
+            background: #f5f5f5;
+            color: #757575;
+        }
+
+        .phase-date {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .phase-item.completed .phase-date {
+            color: #999;
+        }
+
+        /* Stili per il selettore della prossima fase */
+        .next-phase-selector {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 2px dashed #2e7d32;
+        }
+
+        .next-phase-selector h4 {
+            color: #2e7d32;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .next-phase-selector select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .next-phase-selector select option:disabled {
+            color: #999;
+            background: #f5f5f5;
+        }
+
+        .next-phase-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <h1>Aggiungi Attività</h1>
+    </header>
+
+    <div class="date-selector">
+        <span class="material-icons">event</span>
+        <input type="date" id="activity-date" name="activity-date">
+    </div>
+
+    <main class="main-content">
+        <aside class="categories-panel">
+            <ul class="category-list">
+                <li class="category-item" data-category="irrigazione">
+                    <span class="material-icons">water_drop</span>
+                    Irrigazione
+                </li>
+                <li class="category-item" data-category="lavorazioni">
+                    <span class="material-icons">agriculture</span>
+                    Lavorazioni
+                </li>
+                <li class="category-item" data-category="difesa">
+                    <span class="material-icons">medical_services</span>
+                    Difesa
+                </li>
+                <li class="category-item" data-category="fase-coltivazione">
+                    <span class="material-icons">eco</span>
+                    Fase Coltivazione
+                </li>
+                <li class="category-item" data-category="altro">
+                    <span class="material-icons">more_horiz</span>
+                    Altro
+                </li>
+            </ul>
+
+            <!-- Sezione Test per Simulazione -->
+            <div class="test-section">
+                <h3>🔧 SEZIONE TEST</h3>
+                <select id="test-culture-selector" class="culture-selector">
+                    <option value="">Seleziona coltura attiva...</option>
+                    <option value="pomodoro">Pomodoro (Trapianto Annuale)</option>
+                    <option value="mais">Mais (Semina Annuale)</option>
+                    <option value="carota">Carota (Semina Biennale)</option>
+                    <option value="cavolo">Cavolo Invernale (Trapianto Biennale)</option>
+                    <option value="vite">Vite (Pluriennale)</option>
+                </select>
+                <div id="active-culture-info" class="active-culture-card"></div>
+            </div>
+        </aside>
+
+        <section class="detail-panel" id="detail-panel">
+            <!-- Il contenuto verrà inserito dinamicamente -->
+        </section>
+
+        <aside class="config-panel" id="config-panel">
+            <div class="config-panel-header">
+                <h3>Configurazione</h3>
+            </div>
+            <div class="config-panel-content">
+                <!-- Il contenuto verrà inserito dinamicamente in base all'attività selezionata -->
+                <p style="color: #666; text-align: center; margin-top: 2rem;">
+                    Seleziona un'attività per visualizzare le opzioni di configurazione
+                </p>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        // Dati di simulazione estesi per includere le date delle fasi
+        const cultureData = {
+            'pomodoro': {
+                name: 'Pomodoro',
+                type: 'TA',
+                typeName: 'Trapianto Annuale',
+                icon: 'https://cdn-icons-png.flaticon.com/128/1412/1412511.png',
+                variety: 'San Marzano',
+                plantingDate: '15-12-2024',
+                expectedHarvestDate: '20-07-2025',
+                field: 'Campo Asepa - Zona 1',
+                density: '2.5 piante/m²',
+                activePhases: [
+                    {
+                        name: 'Trapianto',
+                        startDate: '15-12-2024',
+                        endDate: '15-12-2024',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Adattamento post-trapianto',
+                        startDate: '15-12-2024',
+                        endDate: '30-12-2024',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Accrescimento vegetativo',
+                        startDate: '30-12-2024',
+                        endDate: '15-12-2024',
+                        status: 'active'
+                    },
+                    {
+                        name: 'Induzione fiorale e fioritura',
+                        startDate: '15-12-2024',
+                        endDate: null,
+                        status: 'pending'
+                    }
+                ]
+            },
+            'mais': {
+                name: 'Mais',
+                type: 'SA',
+                typeName: 'Semina Annuale',
+                icon: 'https://media.istockphoto.com/id/1282383482/it/vettoriale/icona-mais-su-sfondo-trasparente.jpg?s=612x612&w=0&k=20&c=ysrkkzFLKhoNIVcUuwjEhiZy4TtdhSvXgUU4gG13muI=',
+                variety: 'Pioneer P1547',
+                plantingDate: '15-03-2025',
+                expectedHarvestDate: '15-09-2025',
+                field: 'Campo Asepa - Zona 2',
+                density: '7.5 piante/m²',
+                activePhases: [
+                    {
+                        name: 'Semina',
+                        startDate: '15-03-2025',
+                        endDate: '15-03-2025',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Germinazione ed emergenza',
+                        startDate: '15-03-2025',
+                        endDate: '30-03-2025',
+                        status: 'active'
+                    },
+                    {
+                        name: 'Accrescimento vegetativo',
+                        startDate: '30-03-2025',
+                        endDate: null,
+                        status: 'pending'
+                    },
+                    {
+                        name: 'Levata',
+                        startDate: null,
+                        endDate: null,
+                        status: 'pending'
+                    },
+                    {
+                        name: 'Fioritura',
+                        startDate: null,
+                        endDate: null,
+                        status: 'pending'
+                    }
+                ]
+            },
+            'carota': {
+                name: 'Carota',
+                type: 'SB',
+                typeName: 'Semina Biennale',
+                icon: 'https://media.istockphoto.com/id/1348860373/it/vettoriale/cartone-animato-vettoriale-della-carota.jpg?s=612x612&w=0&k=20&c=d2hXU5o6290lXkJgMIEjE6azCwVC7TwyWEhqqEtYoOg=',
+                variety: 'Nantes',
+                plantingDate: '01-09-2024',
+                expectedHarvestDate: '30-06-2025',
+                field: 'Campo Asepa - Zona 3',
+                density: '80 piante/m²',
+                activePhases: [
+                    {
+                        name: 'Semina',
+                        startDate: '01-09-2024',
+                        endDate: '01-09-2024',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Germinazione ed emergenza',
+                        startDate: '01-09-2024',
+                        endDate: '15-09-2024',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Accrescimento vegetativo iniziale',
+                        startDate: '15-09-2024',
+                        endDate: '15-11-2024',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Dormienza invernale',
+                        startDate: '15-11-2024',
+                        endDate: '15-02-2025',
+                        status: 'active'
+                    },
+                    {
+                        name: 'Ripresa vegetativa',
+                        startDate: '15-02-2025',
+                        endDate: null,
+                        status: 'pending'
+                    }
+                ]
+            },
+            'cavolo': {
+                name: 'Cavolo Invernale',
+                type: 'TB',
+                typeName: 'Trapianto Biennale',
+                icon: 'https://us.123rf.com/450wm/hillway/hillway2412/hillway241200163/238769806-fresh-green-cabbage-for-salad-fresh-and-healthy-food-vegetarian-nutrition-organic-ingredient-for.jpg?ver=6',
+                variety: 'Savoy King',
+                plantingDate: '15-08-2024',
+                expectedHarvestDate: '30-07-2025',
+                field: 'Campo Asepa - Zona 4',
+                density: '4 piante/m²',
+                activePhases: [
+                    {
+                        name: 'Trapianto',
+                        startDate: '15-08-2024',
+                        endDate: '15-08-2024',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Adattamento post-trapianto',
+                        startDate: '15-08-2024',
+                        endDate: '30-08-2024',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Accrescimento vegetativo iniziale',
+                        startDate: '30-08-2024',
+                        endDate: '30-10-2024',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Accumulo riserve pre-vernalizzazione',
+                        startDate: '30-10-2024',
+                        endDate: '30-12-2024',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Vernalizzazione',
+                        startDate: '30-12-2024',
+                        endDate: '28-02-2025',
+                        status: 'active'
+                    },
+                    {
+                        name: 'Induzione fiorale',
+                        startDate: '28-02-2025',
+                        endDate: null,
+                        status: 'pending'
+                    }
+                ]
+            },
+            'vite': {
+                name: 'Vite',
+                type: 'P',
+                typeName: 'Coltura Pluriennale',
+                icon: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuhnHb2LTlfBBKlWtJEuBDGWRIYNLscA4HZA&s',
+                variety: 'Sangiovese',
+                plantingDate: '15-03-2020',
+                expectedHarvestDate: '15-09-2025',
+                field: 'Campo Asepa - Zona 5',
+                density: '0.5 piante/m²',
+                activePhases: [
+                    {
+                        name: 'Riposo vegetativo',
+                        startDate: '15-11-2024',
+                        endDate: '15-02-2025',
+                        status: 'completed'
+                    },
+                    {
+                        name: 'Pianto e germogliamento',
+                        startDate: '15-02-2025',
+                        endDate: '15-03-2025',
+                        status: 'active'
+                    },
+                    {
+                        name: 'Accrescimento germogli',
+                        startDate: '15-03-2025',
+                        endDate: null,
+                        status: 'pending'
+                    },
+                    {
+                        name: 'Fioritura',
+                        startDate: null,
+                        endDate: null,
+                        status: 'pending'
+                    },
+                    {
+                        name: 'Allegagione',
+                        startDate: null,
+                        endDate: null,
+                        status: 'pending'
+                    }
+                ]
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryItems = document.querySelectorAll('.category-item');
+            const detailPanel = document.querySelector('.detail-panel');
+            const cultureSelectorTest = document.getElementById('test-culture-selector');
+            const activeCultureInfo = document.getElementById('active-culture-info');
+            let currentCulture = null;
+            let isInitializationMode = false;
+
+            // Gestione selezione coltura di test
+            cultureSelectorTest.addEventListener('change', function(e) {
+                const selectedCulture = cultureData[e.target.value];
+                if (selectedCulture) {
+                    currentCulture = selectedCulture;
+                    activeCultureInfo.innerHTML = `
+                        <div class="culture-header">
+                            <img src="${selectedCulture.icon}" alt="${selectedCulture.name}" class="culture-icon">
+                            <div class="culture-info">
+                                <div class="culture-name">${selectedCulture.name}</div>
+                                <div class="culture-type">${selectedCulture.typeName}</div>
+                            </div>
+                        </div>
+                        <div class="culture-details">
+                            <span class="detail-label">Varietà:</span>
+                            <span>${selectedCulture.variety}</span>
+                            <span class="detail-label">Data impianto:</span>
+                            <span>${selectedCulture.plantingDate}</span>
+                            <span class="detail-label">Raccolta prevista:</span>
+                            <span>${selectedCulture.expectedHarvestDate}</span>
+                            <span class="detail-label">Campo:</span>
+                            <span>${selectedCulture.field}</span>
+                            <span class="detail-label">Densità:</span>
+                            <span>${selectedCulture.density}</span>
+                        </div>
+                    `;
+                    
+                    const activeCategoryItem = document.querySelector('.category-item.active');
+                    if (activeCategoryItem && activeCategoryItem.dataset.category === 'fase-coltivazione') {
+                        updateDetailPanel(activeCategoryItem);
+                    }
+                } else {
+                    currentCulture = null;
+                    activeCultureInfo.innerHTML = '';
+                }
+            });
+
+            function updateDetailPanel(category) {
+                if (category.dataset.category === 'fase-coltivazione') {
+                    if (isInitializationMode) {
+                        detailPanel.innerHTML = `
+                            <div class="detail-header">
+                                <h2>Inizializza Nuova Coltura</h2>
+                            </div>
+                            <div class="detail-content">
+                                <div class="activity-options">
+                                    <label class="activity-option">
+                                        <input type="radio" name="init-activity" value="start-culture">
+                                        Inizio coltura
+                                    </label>
+                                    <label class="activity-option">
+                                        <input type="radio" name="init-activity" value="post-transplant">
+                                        Adattamento post-trapianto
+                                    </label>
+                                    <label class="activity-option">
+                                        <input type="radio" name="init-activity" value="breeding-start">
+                                        Inizio periodo di allevamento
+                                    </label>
+                                    <label class="activity-option">
+                                        <input type="radio" name="init-activity" value="production-start">
+                                        Inizio periodo di produzione (pluriennale)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary" id="backToPhases">
+                                    <span class="material-icons">arrow_back</span>
+                                    Indietro
+                                </button>
+                                <button class="btn btn-primary">
+                                    <span class="material-icons">save</span>
+                                    Salva
+                                </button>
+                            </div>
+                        `;
+
+                        // Aggiungi event listener per il pulsante indietro
+                        const backButton = document.getElementById('backToPhases');
+                        if (backButton) {
+                            backButton.addEventListener('click', function() {
+                                isInitializationMode = false;
+                                updateDetailPanel(category);
+                            });
+                        }
+
+                        // Aggiorna il pannello di configurazione per l'inizializzazione
+                        updateConfigPanel('init-culture');
+                    } else {
+                        detailPanel.innerHTML = `
+                            <div class="detail-header">
+                                <h2>Fase Coltivazione</h2>
+                            </div>
+                            <div class="detail-content">
+                                ${!currentCulture ? `
+                                    <button class="init-culture-button" id="initCultureBtn" style="width: 100%; margin-bottom: 2rem;">
+                                        <span class="material-icons">add_circle</span>
+                                        INIZIALIZZA COLTURA
+                                    </button>
+                                    <p style="color: #666; padding: 1rem;">
+                                        Seleziona una coltura dalla sezione test per visualizzare le fasi disponibili.
+                                    </p>
+                                ` : `
+                                    <div class="active-phases">
+                                        <h3>Fasi Attive - ${currentCulture.name}</h3>
+                                        <div class="phase-timeline">
+                                            ${currentCulture.activePhases
+                                                .filter(phase => phase.status !== 'pending')
+                                                .map(phase => `
+                                                    <div class="phase-item ${phase.status}">
+                                                        <div class="phase-name">
+                                                            ${phase.name}
+                                                            <span class="phase-status">
+                                                                ${phase.status === 'completed' ? 'Completata' : 'In corso'}
+                                                            </span>
+                                                        </div>
+                                                        <div class="phase-date">
+                                                            ${phase.startDate} ${phase.endDate ? `- ${phase.endDate}` : '(in corso)'}
+                                                        </div>
+                                                    </div>
+                                                `).join('')}
+                                        </div>
+
+                                        <div class="next-phase-selector">
+                                            <h4>
+                                                <span class="material-icons">next_plan</span>
+                                                Seleziona Prossima Fase
+                                            </h4>
+                                            <select id="nextPhaseSelect">
+                                                <option value="">Seleziona la prossima fase...</option>
+                                                ${getAllPhases(currentCulture.type)
+                                                    .filter(phase => {
+                                                        // Trova l'ultima fase non pending
+                                                        const lastActivePhase = [...currentCulture.activePhases]
+                                                            .filter(p => p.status !== 'pending')
+                                                            .pop();
+                                                        
+                                                        // Ottieni l'indice dell'ultima fase attiva
+                                                        const lastActiveIndex = getAllPhases(currentCulture.type)
+                                                            .indexOf(lastActivePhase.name);
+                                                        
+                                                        // Ottieni l'indice della fase corrente
+                                                        const currentIndex = getAllPhases(currentCulture.type)
+                                                            .indexOf(phase);
+                                                        
+                                                        // Mostra solo le fasi successive all'ultima fase attiva
+                                                        return currentIndex > lastActiveIndex;
+                                                    })
+                                                    .map(phase => `
+                                                        <option value="${phase}">
+                                                            ${phase}
+                                                        </option>
+                                                    `).join('')}
+                                            </select>
+                                            <div class="next-phase-actions">
+                                                <button class="btn btn-primary" id="saveNextPhase">
+                                                    <span class="material-icons">save</span>
+                                                    Registra Nuova Fase
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `}
+                            </div>
+                        `;
+
+                        // Event listeners
+                        const initButton = document.getElementById('initCultureBtn');
+                        if (initButton) {
+                            initButton.addEventListener('click', function() {
+                                isInitializationMode = true;
+                                updateDetailPanel(category);
+                            });
+                        }
+
+                        const saveNextPhaseBtn = document.getElementById('saveNextPhase');
+                        if (saveNextPhaseBtn) {
+                            saveNextPhaseBtn.addEventListener('click', function() {
+                                const selectedPhase = document.getElementById('nextPhaseSelect').value;
+                                if (selectedPhase) {
+                                    // Trova la fase attiva corrente e impostala come completata
+                                    const activePhaseIndex = currentCulture.activePhases.findIndex(p => p.status === 'active');
+                                    if (activePhaseIndex !== -1) {
+                                        currentCulture.activePhases[activePhaseIndex].status = 'completed';
+                                        currentCulture.activePhases[activePhaseIndex].endDate = getCurrentDate();
+                                    }
+
+                                    // Aggiungi la nuova fase come attiva
+                                    const newPhase = {
+                                        name: selectedPhase,
+                                        startDate: getCurrentDate(),
+                                        endDate: null,
+                                        status: 'active'
+                                    };
+
+                                    // Trova l'indice corretto per inserire la nuova fase
+                                    const allPhases = getAllPhases(currentCulture.type);
+                                    const newPhaseIndex = allPhases.indexOf(selectedPhase);
+                                    
+                                    // Aggiorna le fasi successive come pending se necessario
+                                    currentCulture.activePhases = currentCulture.activePhases
+                                        .filter(phase => phase.status !== 'pending')
+                                        .concat([newPhase])
+                                        .concat(allPhases.slice(newPhaseIndex + 1).map(p => ({
+                                            name: p,
+                                            startDate: null,
+                                            endDate: null,
+                                            status: 'pending'
+                                        })));
+
+                                    updateDetailPanel(category);
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            // Funzione per ottenere tutte le fasi possibili in base al tipo di coltura
+            function getAllPhases(cultureType) {
+                const phasesByType = {
+                    'TA': [
+                        'Trapianto',
+                        'Adattamento post-trapianto',
+                        'Accrescimento vegetativo',
+                        'Induzione fiorale e fioritura',
+                        'Allegagione e accrescimento dei frutti/semi',
+                        'Maturazione',
+                        'Raccolta',
+                        'Senescenza'
+                    ],
+                    'SA': [
+                        'Semina',
+                        'Germinazione ed emergenza',
+                        'Accrescimento vegetativo',
+                        'Levata',
+                        'Fioritura',
+                        'Allegagione',
+                        'Accrescimento dei frutti/semi',
+                        'Maturazione',
+                        'Raccolta',
+                        'Senescenza'
+                    ],
+                    'SB': [
+                        'Semina',
+                        'Germinazione ed emergenza',
+                        'Accrescimento vegetativo iniziale',
+                        'Dormienza invernale',
+                        'Ripresa vegetativa',
+                        'Induzione fiorale',
+                        'Fioritura',
+                        'Allegagione',
+                        'Maturazione semi',
+                        'Raccolta',
+                        'Senescenza'
+                    ],
+                    'TB': [
+                        'Trapianto',
+                        'Adattamento post-trapianto',
+                        'Accrescimento vegetativo iniziale',
+                        'Accumulo riserve pre-vernalizzazione',
+                        'Vernalizzazione',
+                        'Induzione fiorale',
+                        'Fioritura',
+                        'Allegagione',
+                        'Maturazione semi',
+                        'Raccolta',
+                        'Senescenza'
+                    ],
+                    'P': [
+                        'Riposo vegetativo',
+                        'Pianto e germogliamento',
+                        'Accrescimento germogli',
+                        'Fioritura',
+                        'Allegagione',
+                        'Accrescimento acini',
+                        'Invaiatura',
+                        'Maturazione',
+                        'Raccolta',
+                        'Caduta foglie'
+                    ]
+                };
+                
+                return phasesByType[cultureType] || [];
+            }
+
+            // Funzione per verificare se una fase deve essere disabilitata
+            function isPhaseDisabled(phase, activePhases) {
+                return activePhases.some(p => 
+                    (p.name === phase && (p.status === 'completed' || p.status === 'active'))
+                );
+            }
+
+            // Funzione per ottenere la data corrente nel formato dd-mm-yyyy
+            function getCurrentDate() {
+                const today = new Date();
+                const dd = String(today.getDate()).padStart(2, '0');
+                const mm = String(today.getMonth() + 1).padStart(2, '0');
+                const yyyy = today.getFullYear();
+                return `${dd}-${mm}-${yyyy}`;
+            }
+
+            // Event listeners per le categorie
+            categoryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    categoryItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    isInitializationMode = false; // Reset modalità inizializzazione
+                    updateDetailPanel(this);
+                });
+            });
+
+            // Inizializza con la categoria attiva
+            const activeCategory = document.querySelector('.category-item.active');
+            if (activeCategory) {
+                updateDetailPanel(activeCategory);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+{
+  "name": "domain-interfaces",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/domain/interfaces/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/libs/domain/interfaces"],
+      "options": {
+        "project": "libs/domain/interfaces/ng-package.json",
+        "tsConfig": "libs/domain/interfaces/tsconfig.lib.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/domain/interfaces/**/*.ts",
+          "libs/domain/interfaces/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

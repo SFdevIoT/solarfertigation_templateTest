@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Fertigation System</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Stili comuni -->
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/layout.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <!-- Stili specifici -->
+    <link rel="stylesheet" href="styles/zone-card.css">
+    <link rel="stylesheet" href="styles/card-macchina.css">
+    <link rel="stylesheet" href="styles/attivita.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="logo-container">
+            <img src="assets/img/loghi/logo_sf.png" alt="Solar Fertigation Logo" class="logo">
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="#" data-template="zone.html" class="active">Zone</a></li>
+                <li><a href="#" data-template="card_Macchina.html">Macchine</a></li>
+                <li><a href="#" data-template="Attivita.html">Attività</a></li>
+            </ul>
+        </nav>
+        <div class="user-info">
+            <span class="material-icons">account_circle</span>
+            <span class="username">Admin</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Il contenuto verrà caricato dinamicamente qui -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>&copy; 2025 Solar Fertigation System. All rights reserved.</p>
+    </footer>
+
+    <!-- Script di utility -->
+    <script src="scripts/template-loader.js"></script>
+    <script src="scripts/router.js"></script>
+    <script src="scripts/state.js"></script>
+
+    <!-- Componenti -->
+    <script src="scripts/components/ProgressBar.js"></script>
+    <script src="scripts/components/ZoneCard.js"></script>
+    <script src="scripts/components/FertilizerCard.js"></script>
+
+    <!-- Script principali -->
+    <script src="scripts/main.js"></script>
+    <script src="scripts/zone-main.js"></script>
+    <script src="scripts/attivita.js"></script>
+
+    <script>
+        // Inizializzazione dell'applicazione
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carica il template iniziale (Zone)
+            loadTemplate('zone.html');
+
+            // Gestione della navigazione
+            document.querySelectorAll('.main-nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const template = this.getAttribute('data-template');
+                    
+                    // Aggiorna lo stato attivo
+                    document.querySelectorAll('.main-nav a').forEach(a => a.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Carica il template
+                    loadTemplate(template);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

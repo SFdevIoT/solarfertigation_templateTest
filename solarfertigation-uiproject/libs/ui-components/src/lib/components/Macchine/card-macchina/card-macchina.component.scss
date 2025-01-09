@@ -1,0 +1,142 @@
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 16px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    .machine-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .status-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .machine-status {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+
+        &.active {
+          background-color: #e6f4ea;
+          color: #1e8e3e;
+        }
+
+        &.inactive {
+          background-color: #fce8e6;
+          color: #d93025;
+        }
+      }
+
+      .alarm-icon {
+        width: 20px;
+        height: 20px;
+        cursor: help;
+      }
+    }
+  }
+
+  .machine-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.card-body {
+  padding: 16px;
+
+  .fertilizers {
+    .fertilizers-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+
+      .fertilizers-title {
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+
+      .fertilizers-config {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.05);
+          border-radius: 50%;
+        }
+      }
+    }
+
+    .fert-item {
+      margin-bottom: 12px;
+
+      .progress-bar {
+        height: 8px;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 4px;
+
+        .progress-fill {
+          height: 100%;
+          transition: width 0.3s ease;
+        }
+      }
+
+      .fert-label {
+        font-size: 0.9rem;
+        color: #666;
+      }
+    }
+  }
+}
+
+.card-footer {
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+
+  .btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+}

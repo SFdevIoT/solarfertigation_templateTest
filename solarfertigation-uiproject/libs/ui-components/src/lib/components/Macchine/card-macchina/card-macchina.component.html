@@ -1,0 +1,57 @@
+<div class="card">
+  <!-- Header -->
+  <div class="card-header">
+    <div class="header-left">
+      <span class="machine-title">{{machineData.name}} ({{machineData.id}})</span>
+      <div class="status-container">
+        <span class="machine-status" [ngClass]="getStatusClass()">
+          {{machineData.statusText}}
+        </span>
+        <img class="alarm-icon" 
+             [src]="getAlarmIcon()" 
+             [alt]="getAlarmText()"
+             [title]="getAlarmText()">
+      </div>
+    </div>
+    <img class="machine-icon" 
+         src="../../assets/icons/icona-macchina.svg" 
+         alt="Icona Macchina">
+  </div>
+
+  <!-- Body -->
+  <div class="card-body">
+    <div class="fertilizers">
+      <!-- Header fertilizzanti -->
+      <div class="fertilizers-header">
+        <span class="fertilizers-title">Fertilizzanti</span>
+        <button class="fertilizers-config" title="Gestione fertilizzanti">
+          <img src="assets/icons/settings_icon.svg" alt="Configurazione fertilizzanti">
+        </button>
+      </div>
+
+      <!-- Lista fertilizzanti -->
+      <div class="fert-item" *ngFor="let fert of machineData.fertilizers; let i = index">
+        <div class="progress-bar" [style.background-color]="fert.color">
+          <div class="progress-fill" 
+               [style.width.%]="fert.percentage"
+               [style.background-color]="fert.color">
+          </div>
+        </div>
+        <span class="fert-label">{{fert.label}} ({{fert.capacity}})</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="card-footer">
+    <button class="btn" title="Dettaglio">
+      <img src="../../assets/icons/detail_icon.svg" alt="Dettaglio">
+    </button>
+    <button class="btn" title="Configurazione">
+      <img src="../../assets/icons/config_icon.svg" alt="Configurazione">
+    </button>
+    <button class="btn" title="Report">
+      <img src="../../assets/icons/report_icon.svg" alt="Report">
+    </button>
+  </div>
+</div>

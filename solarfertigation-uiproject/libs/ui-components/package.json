@@ -1,0 +1,13 @@
+{
+  "name": "@solarfertigation-uiproject/ui-components",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^16.2.0",
+    "@angular/core": "^16.2.0",
+    "@solarfertigation-uiproject/domain": "^0.0.1"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

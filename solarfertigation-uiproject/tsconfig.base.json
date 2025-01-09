@@ -1,0 +1,41 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2022",
+    "module": "esnext",
+    "lib": ["es2020", "dom", "es2017.object"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "forceConsistentCasingInFileNames": false,
+    "baseUrl": ".",
+    "paths": {
+      "@solarfertigation-uiproject/domain": ["libs/domain/src/index.ts"],
+      "@solarfertigation-uiproject/domain/business": [
+        "libs/domain/business/src/index.ts"
+      ],
+      "@solarfertigation-uiproject/domain/interfaces": [
+        "libs/domain/interfaces/src/index.ts"
+      ],
+      "@solarfertigation-uiproject/domain/mock-services": [
+        "libs/domain/mock-services/src/index.ts"
+      ],
+      "@solarfertigation-uiproject/repository": [
+        "libs/repository/src/index.ts"
+      ],
+      "@solarfertigation-uiproject/ui-components": [
+        "libs/ui-components/src/index.ts"
+      ]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
